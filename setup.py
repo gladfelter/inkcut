@@ -22,7 +22,12 @@ install_requires = [
     'jsonpickle',
     'lxml',  # use sudo apt install libxml2-dev libxslt-dev
 
-    #'PyQt6', # Let users install whatever Qt they want
+    # PyQt6 is required, not optional: enamlx's QtKeyEvent builds its key
+    # table from Qt5-style flat accessors (Qt.Key_*), which only PyQt6
+    # exposes. With PySide6 alone, qtpy selects PySide6 and InkCut dies at
+    # startup with KeyError: "Invalid key code 'return'" from
+    # enamlx.qt.qt_key_event.set_keys. Verified 2026-11-25 on Windows.
+    'PyQt6; python_version > \'3.0\'',
     'asyncqtpy',
     'aiofile; sys_platform != \'win32\'',
 
